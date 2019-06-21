@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +18,7 @@ public class LoginController {
 	@Autowired
 	UsuarioService usuarioService;
 
-	@RequestMapping("/")
+	@GetMapping("/")
 	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView();
 		Usuario user = new Usuario();
@@ -27,7 +27,7 @@ public class LoginController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/verifyCredentials", method = RequestMethod.POST)
+	@PostMapping("/verifyCredentials")
 	public ModelAndView validateCredentials(@RequestParam(value = "user") String username,
 			@RequestParam(value = "password") String password, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -36,6 +36,7 @@ public class LoginController {
 			mav.setViewName("login");
 			return mav;
 		}
-		return new ModelAndView("redirect:/sucursales");
+		return new ModelAndView("redirect:/facilities");
 	}
+
 }
