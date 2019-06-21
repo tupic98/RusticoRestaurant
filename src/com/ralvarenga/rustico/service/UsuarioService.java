@@ -5,7 +5,7 @@ import java.util.List;
 import com.ralvarenga.rustico.domain.Usuario;
 
 public interface UsuarioService {
-	public Usuario loginUsuario(String usuario, String password);
+	public Usuario loginUsuario(String username, String password);
 
 	public Usuario getUserById(Long id);
 
