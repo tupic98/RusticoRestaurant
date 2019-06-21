@@ -10,18 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ralvarenga.rustico.domain.Usuario;
-import com.ralvarenga.rustico.service.EmpleadoService;
-import com.ralvarenga.rustico.service.SucursalService;
 import com.ralvarenga.rustico.service.UsuarioService;
 
 @Controller
 public class LoginController {
-
-	@Autowired
-	EmpleadoService empleadoService;
-
-	@Autowired
-	SucursalService sucursalService;
 
 	@Autowired
 	UsuarioService usuarioService;
