@@ -7,5 +7,5 @@ import com.ralvarenga.rustico.domain.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-	public Usuario findByUsuarioAndClave(String usuario, String password);
+	Usuario findByUUsuarioAndUClave(String username, String password);
 }
