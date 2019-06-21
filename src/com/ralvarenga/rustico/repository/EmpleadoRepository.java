@@ -7,5 +7,4 @@ import com.ralvarenga.rustico.domain.Empleado;
 
 @Repository
 public interface EmpleadoRepository extends JpaRepository<Empleado, Long> {
-
 }
