@@ -98,4 +98,8 @@ public class Empleado {
 		this.eSucursal = eSucursal;
 	}
 
+	public String getEstadoDelegate() {
+		return this.eEstado == null ? "" : this.eEstado == true ? "Activo" : "Inactivo";
+	}
+
 }
