@@ -2,6 +2,7 @@ package com.ralvarenga.rustico.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +37,8 @@ public class Sucursal {
 	@Column(name = "s_nomgerente")
 	private String sNombreGerente;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "eSucursal")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "eSucursal", cascade = { CascadeType.MERGE, CascadeType.REFRESH,
+			CascadeType.DETACH, CascadeType.REMOVE })
 	private List<Empleado> empleados;
 
 	public Sucursal() {

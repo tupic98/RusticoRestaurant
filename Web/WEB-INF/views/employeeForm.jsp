@@ -5,11 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<link type="text/css" rel="stylesheet"
-	href="resources/css/materialize.min.css" />
-<script src="resources/js/materialize.min.js"></script>
 <script src="resources/js/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="resources/css/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
@@ -24,12 +19,12 @@
 			value="${employee.cEmpleado}" />
 		<input type="hidden" name="idFacility" value="${idFacility}">
 		<label>Ingrese el nombre de la sucursal: </label>
-		<form:input type="text" name="name" path="eNombre"
-			value="${facility.eNombre}" />
+		<form:input type="text" name="eNombre" path="eNombre"
+			value="${employee.eNombre}" />
 		<br>
 		<label>Ingrese la edad del empleado: </label>
-		<form:input type="text" name="edad" path="eEdad"
-			value="${facility.sUbicacion}" />
+		<form:input type="text" name="eEdad" path="eEdad"
+			value="${employee.eEdad}" />
 		<br>
 
 		<label>Genero del empleado: </label>

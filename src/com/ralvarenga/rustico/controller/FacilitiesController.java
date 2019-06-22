@@ -6,6 +6,7 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -180,5 +181,13 @@ public class FacilitiesController {
 			mav.addObject("deleteEmployeeErrorMessage", deleteEmployeeErrorMessage);
 		}
 		return facilityProfile(idFacility);
+	}
+
+	@PostMapping("/addEmployee")
+	public ModelAndView addEmployee(@RequestParam(value = "idFacility") Long idFacility) {
+		mav.addObject("employee", new Empleado());
+		mav.addObject("idFacility", idFacility);
+		mav.setViewName("employeeForm");
+		return mav;
 	}
 }
