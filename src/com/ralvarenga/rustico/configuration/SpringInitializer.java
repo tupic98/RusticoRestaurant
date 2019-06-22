@@ -16,9 +16,9 @@ public class SpringInitializer implements WebApplicationInitializer {
 		ctx.register(SpringConfiguration.class);
 		ctx.setServletContext(servletContext);
 
-		ServletRegistration.Dynamic serDynamic = servletContext.addServlet("rustico", new DispatcherServlet(ctx));
-		serDynamic.addMapping("/");
-		serDynamic.setLoadOnStartup(1);
+		ServletRegistration.Dynamic servlet = servletContext.addServlet("rustico", new DispatcherServlet(ctx));
+		servlet.addMapping("/");
+		servlet.setLoadOnStartup(1);
 	}
 
 }
