@@ -34,7 +34,7 @@ public class Sucursal {
 	private Integer sNumeroMesas;
 
 	@Column(name = "s_nomgerente")
-	private Integer sNombreGerente;
+	private String sNombreGerente;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "eSucursal")
 	private List<Empleado> empleados;
@@ -43,7 +43,7 @@ public class Sucursal {
 	}
 
 	public Sucursal(Long cSucursal, String sNombre, String sUbicacion, String sHorario, Integer sNumeroMesas,
-			Integer sNombreGerente, List<Empleado> empleados) {
+			String sNombreGerente, List<Empleado> empleados) {
 		this.cSucursal = cSucursal;
 		this.sNombre = sNombre;
 		this.sUbicacion = sUbicacion;
@@ -93,11 +93,11 @@ public class Sucursal {
 		this.sNumeroMesas = sNumeroMesas;
 	}
 
-	public Integer getsNombreGerente() {
+	public String getsNombreGerente() {
 		return sNombreGerente;
 	}
 
-	public void setsNombreGerente(Integer sNombreGerente) {
+	public void setsNombreGerente(String sNombreGerente) {
 		this.sNombreGerente = sNombreGerente;
 	}
 
