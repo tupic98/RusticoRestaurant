@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ralvarenga.rustico.domain.Empleado;
@@ -53,20 +56,15 @@ public class FacilitiesController {
 		return mav;
 	}
 
-	@RequestMapping("/saveFacility")
-	public ModelAndView saveFacility(@ModelAttribute Sucursal sucursal) {
-		String saveFacilityErrorMessage = "Couldn't save facility";
-		String saveFacilitySuccessMessage = "Facility saved!";
+	@PostMapping("/saveFacility")
+	public @ResponseBody ResponseEntity<String> saveFacility(@ModelAttribute Sucursal sucursal) {
 		try {
 			sucursalService.saveSucursal(sucursal);
-			mav.addObject("saveFacilityErrorMessage", null);
-			mav.addObject("saveFacilitySuccessMessage", saveFacilitySuccessMessage);
+			return new ResponseEntity<String>("Sucursal guardada correctamente!", HttpStatus.CREATED);
 		} catch (Exception e) {
-			mav.addObject("saveFacilitySuccessMessage", null);
-			logger.error(saveFacilityErrorMessage, e);
-			mav.addObject("saveFacilityErrorMessage", saveFacilityErrorMessage);
+			logger.error("No se pudo guardar sucursal", e);
+			return new ResponseEntity<String>("Hubo un error al momento de guardar la sucursal", HttpStatus.NOT_FOUND);
 		}
-		return facilities();
 	}
 
 	@RequestMapping(value = "/updateFacility", method = RequestMethod.POST)
@@ -79,7 +77,8 @@ public class FacilitiesController {
 		} catch (Exception e) {
 			logger.error(updateFacilityErrorMessage, e);
 			mav.addObject("updateFacilityErrorMessage", updateFacilityErrorMessage);
-			return facilities();
+			mav.setViewName("redirect:/facilities");
+			return mav;
 		}
 		mav.addObject("facility", sucursal);
 		mav.setViewName("facilityForm");
@@ -89,6 +88,7 @@ public class FacilitiesController {
 	@RequestMapping(value = "/deleteFacility", method = RequestMethod.POST)
 	public ModelAndView deleteExistingFacility(@RequestParam(value = "idFacility") Long id) {
 		String errorMessage = "An error ocurred trying to delete the facility";
+		logger.info("Sucursal " + id);
 		try {
 			Sucursal sucursal = new Sucursal();
 			sucursal = sucursalService.getSucursalById(id);
@@ -101,7 +101,8 @@ public class FacilitiesController {
 			logger.error(errorMessage, e);
 			mav.addObject("deleteFacilityErrorMessage", errorMessage);
 		}
-		return facilities();
+		mav.setViewName("redirect:/facilities");
+		return mav;
 	}
 
 	@RequestMapping(value = "/facilityProfile", method = RequestMethod.GET)
@@ -119,7 +120,8 @@ public class FacilitiesController {
 		} catch (Exception e) {
 			logger.error(facilityProfileErrorMessage, e);
 			mav.addObject("facilityProfileErrorMessage", facilityProfileErrorMessage);
-			return facilities();
+			mav.setViewName("redirect:/facilities");
+			return mav;
 		}
 		mav.setViewName("facilityProfile");
 		return mav;
@@ -161,10 +163,11 @@ public class FacilitiesController {
 			mav.addObject("saveEmployeeSuccessMessage", null);
 			mav.addObject("saveEmployeeErrorMessage", saveEmployeeErrorMessage);
 		}
-		return facilityProfile(idFacility);
+		mav.setViewName("redirect:/facilityProfile");
+		return mav;
 	}
 
-	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.GET)
+	@PostMapping("/deleteEmployee")
 	public ModelAndView deleteEmployee(@RequestParam(value = "idFacility") Long idFacility,
 			@RequestParam(value = "idEmployee") Long idEmployee) {
 		String deleteEmployeeErrorMessage = "Couldn't delete employee";
@@ -180,7 +183,8 @@ public class FacilitiesController {
 			mav.addObject("deleteEmployeeSuccessMessage", null);
 			mav.addObject("deleteEmployeeErrorMessage", deleteEmployeeErrorMessage);
 		}
-		return facilityProfile(idFacility);
+		mav.setViewName("redirect:/facilityProfile");
+		return mav;
 	}
 
 	@PostMapping("/addEmployee")

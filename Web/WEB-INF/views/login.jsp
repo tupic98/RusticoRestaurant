@@ -50,7 +50,7 @@
 	}
 </script>
 <body>
-	<nav>
+	<nav class="brown">
 		<div class="nav-wrapper">
 				<a class="brand-logo">Restaurante Rustico</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -70,7 +70,7 @@
 
 				<div class="row">
 					<div class="input-field col s12">
-						<f:input class="validate" type='text' name='user' id='user'
+						<f:input class="validate" type='email' name='user' id='user'
 							path="uUsuario" />
 						<label for='user'>Ingrese usuario</label>
 					</div>

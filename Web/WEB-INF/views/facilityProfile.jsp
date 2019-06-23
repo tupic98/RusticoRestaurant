@@ -18,72 +18,122 @@
 <title>Rustico Restaurante</title>
 </head>
 <body>
-	<h1>Sucursal ${facility.sNombre}</h1>
-	<div id="container2">
-		<table class="striped" style="padding: 2vh 5vw 2vh 5vw">
+	<nav class="brown">
+		<div class="nav-wrapper">
+			<a class="brand-logo">Restaurante Rustico</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+			</ul>
+		</div>
+	</nav>
+	<h3 class="center-align">Perfil de sucursal "${facility.sNombre}"</h3>
+	<div id="container2"
+		style="width: 100vw; display: flex; justify-content: center;">
+		<table class="striped centered center-align" style="max-width: 95%">
 			<tr>
-				<th>Ubicacion</th>
-				<th>Horario de atención</th>
-				<th>Numero de mesas</th>
-				<th>Gerente</th>
-				<td>Acciones</td>
+				<th class="center-align brown darken-4 white-text">Ubicacion</th>
+				<th class="center-align brown darken-4 white-text">Horario de
+					atención</th>
+				<th class="center-align brown darken-4 white-text">Numero de
+					mesas</th>
+				<th class="center-align brown darken-4 white-text">Gerente</th>
 			</tr>
 			<tr>
 				<td>${facility.sUbicacion}</td>
 				<td>${facility.sHorario}</td>
 				<td>${facility.sNumeroMesas}</td>
 				<td>${facility.sNombreGerente}</td>
-				<td>
-					<form action="${pageContext.request.contextPath}/deleteFacility"
-						method="post">
-						<input type="hidden" value="${facility.cSucursal}"
-							name="idFacility"> <input type="submit" value="Eliminar">
-					</form>
-					<form action="${pageContext.request.contextPath}/addEmployee"
-						method="post">
-						<input type="hidden" value="${facility.cSucursal}"
-							name="idFacility"> <input type="submit"
-							value="Agregar Empleado">
-					</form>
-				</td>
+
 			</tr>
 		</table>
-
+		<form action="${pageContext.request.contextPath}/deleteFacility"
+			method="post">
+			<input type="hidden" value="${facility.cSucursal}" name="idFacility">
+		</form>
+		<form action="${pageContext.request.contextPath}/addEmployee"
+			method="post">
+			<input type="hidden" value="${facility.cSucursal}" name="idFacility">
+		</form>
 	</div>
-	<div id="container3" style="padding: 2vh 5vw 2vh 5vw">
-		<table>
+	<h4 class="center-align">Listado de empleados</h4>
+	<div id="container3" style="padding: 0 0 5vh 0; width: 100vw; display: flex; justify-content: center; align-content: center;">
+		<table class="striped highlight bordered centered center-align" style="max-width:80%">
 			<tr>
-				<th>Nombre Empleado</th>
-				<th>Edad</th>
-				<th>Genero</th>
-				<th>Estado</th>
+				<th class="center-align brown darken-4 white-text">Nombre
+					Empleado</th>
+				<th class="center-align brown darken-4 white-text">Edad</th>
+				<th class="center-align brown darken-4 white-text">Genero</th>
+				<th class="center-align brown darken-4 white-text">Estado</th>
+				<th class="center-align brown darken-4 white-text">Acciones</th>
 			</tr>
-			<c:forEach items="${employees}" var="employees">
+			<c:forEach items="${employees}" var="employee">
 				<tr>
-					<td>${employees.eNombre}</td>
-					<td>${employees.eEdad}</td>
-					<td>${employees.eGenero}</td>
-					<td>${employees.estadoDelegate}</td>
+					<td>${employee.eNombre}</td>
+					<td>${employee.eEdad}</td>
+					<td>${employee.eGenero}</td>
+					<td>${employee.estadoDelegate}</td>
 					<td>
-						<form action="${pageContext.request.contextPath}/updateEmployee"
-							method="post">
-							<input type="hidden" value="${facility.cSucursal}"
-								name="idFacility"> <input type="hidden"
-								value="${employees.cEmpleado}" name="idEmployee"> <input
-								type="submit" value="Editar">
-						</form>
-						<form action="${pageContext.request.contextPath}/deleteEmployee"
-							method="post">
-							<input type="hidden" value="${facility.cSucursal}"
-								name="idFacility"> <input type="hidden"
-								value="${employees.cEmpleado}" name="ifEmployee"> <input
-								type="submit" value="Eliminar">
-						</form>
+						<div class="row" style="display:flex; justify-content: center; margin-bottom: 0px !important;">
+							<form action="${pageContext.request.contextPath}/updateEmployee"
+								method="post" class="col s12">
+								<input type="hidden" value="${facility.cSucursal}"
+									name="idFacility"> <input type="hidden"
+									value="${employee.cEmpleado}" name="idEmployee">
+								<button class="btn-flat waves-effect waves-teal tooltipped"
+									type="submit" name="Actualizar" data-position="top"
+									data-tooltip="Editar empleado: ${employee.eNombre}">
+									<i class="material-icons">create</i>
+								</button>
+							</form>
+							<form action="${pageContext.request.contextPath}/deleteEmployee"
+								method="post" class="col s12">
+								<input type="hidden" value="${facility.cSucursal}"
+									name="idFacility"> <input type="hidden"
+									value="${employee.cEmpleado}" name="idEmployee">
+								<button class="btn-flat waves-effect waves-teal tooltipped"
+									type="submit" name="Actualizar" data-position="top"
+									data-tooltip="Eliminar empleado: ${employee.eNombre}">
+									<i class="material-icons">delete</i>
+								</button>
+							</form>
+						</div>
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
-
 	</div>
+	<div class="fixed-action-btn">
+		<a class="btn-floating btn-large red"> <i
+			class="large material-icons">dehaze</i>
+		</a>
+		<ul>
+			<li><a href=""
+				onclick="location.href='${pageContext.request.contextPath}/facilities'; return false;"
+				class="btn-floating blue tooltipped" data-position="left"
+				data-tooltip="Go home"><i class="material-icons">home</i></a></li>
+			<li><a href=""
+				onclick="document.forms[0].submit(); return false;"
+				class="btn-floating red tooltipped" data-position="left"
+				data-tooltip="Eliminar sucursal: ${facility.sNombre}"><i
+					class="material-icons">delete</i></a></li>
+
+			<li><a href=""
+				onclick="document.forms[1].submit(); return false;"
+				class="btn-floating green tooltipped" data-position="left"
+				data-tooltip="Agregar empleado"><i class="material-icons">person_add</i></a></li>
+		</ul>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.fixed-action-btn');
+			var instances = M.FloatingActionButton.init(elems, {
+				direction : 'top'
+			});
+		});
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.tooltipped');
+			var instances = M.Tooltip.init(elems);
+		});
+	</script>
 </body>
 </html>

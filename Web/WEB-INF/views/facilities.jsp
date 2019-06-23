@@ -16,17 +16,12 @@
 <link rel="stylesheet" href="resources/css/facilities.css">
 <meta charset="UTF-8">
 <title>Rustico Restaurante</title>
-<script src="resources/js/jquery-3.3.0.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		if (!localStorage.getItem('jwt')) {
-			window.location.href = "${pageContext.request.contextPath}/";
-		}
-	});
+	
 </script>
 </head>
 <body>
-	<nav>
+	<nav class="brown">
 		<div class="nav-wrapper">
 			<a href="${pageContext.request.contextPath}/" class="brand-logo">Restaurante
 				Rustico</a>
@@ -38,50 +33,66 @@
 		method="post">
 		<input type="hidden" value="Agregar una sucursal nueva">
 	</form>
-	<div id="container" style="padding: 2vh 5vw 2vh 5vw">
-		<table class="striped">
+	<div id="container"
+		style="padding: 2vh 0 0 0; width: 100vw; display: flex; justify-content: center">
+		<table class="striped highlight bordered centered center-align"
+			style="max-width: 97%;">
 			<tr>
-				<th>Nombre Sucursal</th>
-				<th>Ubicación</th>
-				<th>Horario</th>
-				<th>Numero de mesas</th>
-				<th>Nombre gerente</th>
-				<th>Acciones</th>
+				<th class="center-align brown darken-4 white-text">Nombre
+					Sucursal</th>
+				<th class="center-align brown darken-4 white-text">Ubicación</th>
+				<th class="center-align brown darken-4 white-text">Horario</th>
+				<th class="center-align brown darken-4 white-text">Numero de
+					mesas</th>
+				<th class="center-align brown darken-4 white-text">Nombre
+					gerente</th>
+				<th class="center-align brown darken-4 white-text">Acciones</th>
 			</tr>
-			<c:forEach items="${facilities}" var="facilities">
+			<c:forEach items="${facilities}" var="facility">
 				<tr>
-					<td>${facilities.sNombre}</td>
-					<td>${facilities.sUbicacion}</td>
-					<td>${facilities.sHorario}</td>
-					<td>${facilities.sNumeroMesas}</td>
-					<td>${facilities.sNombreGerente}</td>
+					<td>${facility.sNombre}</td>
+					<td>${facility.sUbicacion}</td>
+					<td>${facility.sHorario}</td>
+					<td>${facility.sNumeroMesas}</td>
+					<td>${facility.sNombreGerente}</td>
 					<td>
-						<form action="${pageContext.request.contextPath}/updateFacility"
-							method="post">
-							<a href="" onclick="document.forms[1].submit(); return false;"
-								class="waves-effect waves-light btn-small"><i
-								class="material-icons right">update</i>Actualizar</a> <input
-								type="hidden" value="${facilities.cSucursal}" name="idFacility">
-						</form>
-						<form action="${pageContext.request.contextPath}/deleteFacility"
-							method="post">
-							<a href="" onclick="document.forms[2].submit(); return false;"
-								class="waves-effect red waves-light btn-small"><i
-								class="material-icons right">cloud</i>Eliminar</a> <input
-								type="hidden" value="${facilities.cSucursal}" name="idFacility">
-						</form>
-						<form action="${pageContext.request.contextPath}/facilityProfile"
-							method="get">
-							<a href="" onclick="document.forms[3].submit(); return false;"
-								class="waves-effect blue waves-light btn-small"><i
-								class="material-icons right">account_circle</i>Ver perfil</a> <input
-								type="hidden" value="${facilities.cSucursal}" name="idFacility">
-						</form>
+						<div class="row"
+							style="display: flex; justify-content: center; margin-bottom: 0px !important;">
+							<form action="${pageContext.request.contextPath}/updateFacility"
+								method="post" class="col s12">
+								<input type="hidden" value="${facility.cSucursal}"
+									name="idFacility">
+								<button class="btn-flat waves-effect waves-teal tooltipped"
+									type="submit" name="Actualizar" data-position="top"
+									data-tooltip="Editar sucursal: ${facility.sNombre}">
+									<i class="material-icons">create</i>
+								</button>
+							</form>
+							<form action="${pageContext.request.contextPath}/deleteFacility"
+								method="post" class="col s12">
+								<input type="hidden" value="${facility.cSucursal}"
+									name="idFacility">
+								<button class="btn-flat waves-effect waves-teal tooltipped"
+									type="submit" name="Actualizar" data-position="top"
+									data-tooltip="Eliminar sucursal: ${facility.sNombre}">
+									<i class="material-icons">delete</i>
+								</button>
+							</form>
+							<form action="${pageContext.request.contextPath}/facilityProfile"
+								method="get" class="col s12">
+								<input type="hidden" value="${facility.cSucursal}"
+									name="idFacility">
+								<button class="btn-flat waves-effect waves-teal tooltipped"
+									type="submit" name="Actualizar" data-position="top"
+									data-tooltip="Ver perfil de: ${facility.sNombre}">
+									<i class="material-icons">account_circle</i>
+								</button>
+							</form>
+						</div>
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
-
 	</div>
 	<div class="fixed-action-btn">
 		<a class="btn-floating btn-large red"> <i
@@ -90,7 +101,8 @@
 		<ul>
 			<li><a href=""
 				onclick="document.forms[0].submit(); return false;"
-				class="btn-floating red"><i class="material-icons">add</i></a></li>
+				class="btn-floating blue tooltipped" data-position="left"
+				data-tooltip="Agregar sucursal"><i class="material-icons">add</i></a></li>
 		</ul>
 	</div>
 
@@ -100,6 +112,10 @@
 			var instances = M.FloatingActionButton.init(elems, {
 				direction : 'top'
 			});
+		});
+		document.addEventListener('DOMContentLoaded', function() {
+			var elems = document.querySelectorAll('.tooltipped');
+			var instances = M.Tooltip.init(elems);
 		});
 	</script>
 </body>
