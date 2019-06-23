@@ -2,11 +2,14 @@ package com.ralvarenga.rustico.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,7 +61,11 @@ public class FacilitiesController {
 	}
 
 	@PostMapping("/saveFacility")
-	public @ResponseBody ResponseEntity<String> saveFacility(@ModelAttribute Sucursal sucursal) {
+	public @ResponseBody ResponseEntity<String> saveFacility(@Valid @ModelAttribute Sucursal sucursal,
+			BindingResult result) {
+		if (result.hasErrors()) {
+			return new ResponseEntity<String>("Error. Algun campo no tiene el formato correcto", HttpStatus.NOT_FOUND);
+		}
 		try {
 			sucursalService.saveSucursal(sucursal);
 		} catch (Exception e) {
@@ -137,8 +144,11 @@ public class FacilitiesController {
 	}
 
 	@PostMapping("/saveEmployee")
-	public @ResponseBody ResponseEntity<String> saveEmployee(@ModelAttribute Empleado empleado,
-			@RequestParam(value = "idFacility") Long idFacility) {
+	public @ResponseBody ResponseEntity<String> saveEmployee(@Valid @ModelAttribute Empleado empleado,
+			BindingResult result, @RequestParam(value = "idFacility") Long idFacility) {
+		if (result.hasErrors()) {
+			return new ResponseEntity<String>("Error. Algún campo no tiene el formato correcto", HttpStatus.NOT_FOUND);
+		}
 		Sucursal sucursal = new Sucursal();
 		try {
 			sucursal = sucursalService.getSucursalById(idFacility);

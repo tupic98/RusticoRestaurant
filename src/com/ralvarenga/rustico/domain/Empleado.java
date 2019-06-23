@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(schema = "public", name = "empleado")
@@ -21,15 +24,21 @@ public class Empleado {
 	@Column(name = "c_empleado")
 	private Long cEmpleado;
 
+	@NotNull
 	@Column(name = "e_nombre")
 	private String eNombre;
 
+	@NotNull
+	@Min(value = 0)
+	@Max(value = 90)
 	@Column(name = "e_edad")
 	private Integer eEdad;
 
+	@NotNull
 	@Column(name = "e_genero")
 	private String eGenero;
 
+	@NotNull
 	@Column(name = "e_estado")
 	private Boolean eEstado;
 

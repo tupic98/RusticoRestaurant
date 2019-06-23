@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(schema = "public", name = "sucursal")
@@ -22,18 +24,24 @@ public class Sucursal {
 	@Column(name = "c_sucursal")
 	private Long cSucursal;
 
+	@NotNull
 	@Column(name = "s_nombre")
 	private String sNombre;
 
+	@NotNull
 	@Column(name = "s_ubicacion")
 	private String sUbicacion;
 
+	@NotNull
 	@Column(name = "s_horario")
 	private String sHorario;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "s_nmesas")
 	private Integer sNumeroMesas;
 
+	@NotNull
 	@Column(name = "s_nomgerente")
 	private String sNombreGerente;
 

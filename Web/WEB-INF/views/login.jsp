@@ -44,7 +44,9 @@
 					type: 'error',
 					showConfirmButton: false,
 					timer: 1800,
-				});
+				}).then(() => {
+					window.locatio.href = "${pageContext.request.contextPath}/"
+				})
 			},
 		});
 	}
@@ -52,7 +54,7 @@
 <body>
 	<nav class="brown">
 		<div class="nav-wrapper">
-				<a class="brand-logo">Restaurante Rustico</a>
+			<a class="brand-logo">Restaurante Rustico</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 			</ul>
 		</div>
@@ -72,6 +74,7 @@
 					<div class="input-field col s12">
 						<f:input class="validate" type='email' name='user' id='user'
 							path="uUsuario" />
+						<f:errors path="uUsuario" cssStyle="color:#ff0000;"></f:errors>
 						<label for='user'>Ingrese usuario</label>
 					</div>
 				</div>
@@ -80,6 +83,7 @@
 					<div class='input-field col s12'>
 						<f:input class='validate' type='password' name='password'
 							path="uClave" id='password' />
+						<f:errors path="uClave" cssStyle="color:#ff0000;"></f:errors>
 						<label for='password'>Ingrese su contraseña </label>
 					</div>
 				</div>

@@ -57,55 +57,59 @@
 			</ul>
 		</div>
 	</nav>
-	<h3>Datos de la sucursal</h3>
+	<h3 class="center-align">Datos de la sucursal</h3>
 	<form:form action="${pageContext.request.contextPath}/saveFacility"
-		method="POST" modelAttribute="facility" id="facilityForm" name="facilityForm">
+		method="POST" modelAttribute="facility" id="facilityForm"
+		name="facilityForm">
 		<form:input type="hidden" name="code" id="code" path="cSucursal"
 			value="${facility.cSucursal}" />
 
-		<div class="row">
-			<div class="input-field col s12">
+		<div class="row" style="margin: 0 2vw 0 2vw;">
+			<div class="input-field col s6">
 				<form:input class="validate" type='text' name='name' id='name'
 					path="sNombre" value="${facility.sNombre}" />
 				<label for='name'>Ingrese el nombre de la sucursal:</label>
+				<form:errors path="sNombre" cssStyle="color:#ff0000;"></form:errors>
 			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12">
+			<div class="input-field col s6">
 				<form:input class="validate" type='text' name='ubic' id='ubic'
 					path="sUbicacion" value="${facility.sUbicacion}" />
 				<label for='ubic'>Ingrese la ubicación de la sucursal:</label>
+				<form:errors path="sUbicacion" cssStyle="color:#ff0000;"></form:errors>
 			</div>
+
 		</div>
-		<div class="row">
-			<div class="input-field col s12">
+		<div class="row" style="margin: 0 2vw 0 2vw;">
+			<div class="input-field col s5">
 				<form:input class="validate" type='text' name='horario' id='horario'
 					path="sHorario" value="${facility.sHorario}" />
 				<label for='horario'>Ingrese el horario de la sucursal:</label>
+				<form:errors path="sHorario" cssStyle="color:#ff0000;"></form:errors>
 			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12">
-				<form:input class="validate" type='number' name='numMesas'
-					id='numMesas' path="sNumeroMesas" value="${facility.sNumeroMesas}" />
-				<label for='numMesas'>Ingrese la cantidad de mesas:</label>
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12">
+
+			<div class="input-field col s5">
 				<form:input class="validate" type='text' name='nomGerente'
 					id='nomGerente' path="sNombreGerente"
 					value="${facility.sNombreGerente}" />
 				<label for='nomGerente'>Ingrese el nombre del gerente a
 					cargo de la sucursal:</label>
+				<form:errors path="sNombreGerente" cssStyle="color:#ff0000;"></form:errors>
+			</div>
+			<div class="input-field col s2">
+				<form:input class="validate" type='number' min="0" name='numMesas'
+					id='numMesas' path="sNumeroMesas" value="${facility.sNumeroMesas}" />
+				<label for='numMesas'>Ingrese la cantidad de mesas:</label>
+				<form:errors path="sNumeroMesas" cssStyle="color:#ff0000;"></form:errors>
 			</div>
 		</div>
 		<div class="row right-align" style="width: calc(100vw - 32px);">
-			<button class="btn btn-small green waves-effect waves-light right-align"
+			<button
+				class="btn btn-small green waves-effect waves-light right-align"
 				type="button" name="save" onClick="saveFacility()">
 				Guardar <i class="material-icons right">save</i>
 			</button>
-			<a onclick="location.href='${pageContext.request.contextPath}/facilities'"
+			<a
+				onclick="location.href='${pageContext.request.contextPath}/facilities'"
 				class="waves-effect btn btn-small waves-light red right-align"><i
 				class="material-icons right">cancel</i>Cancelar</a>
 		</div>
