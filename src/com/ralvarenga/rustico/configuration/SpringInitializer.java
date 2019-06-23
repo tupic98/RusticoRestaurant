@@ -20,5 +20,4 @@ public class SpringInitializer implements WebApplicationInitializer {
 		servlet.addMapping("/");
 		servlet.setLoadOnStartup(1);
 	}
-
 }
