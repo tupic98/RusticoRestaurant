@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,11 +61,11 @@ public class FacilitiesController {
 	public @ResponseBody ResponseEntity<String> saveFacility(@ModelAttribute Sucursal sucursal) {
 		try {
 			sucursalService.saveSucursal(sucursal);
-			return new ResponseEntity<String>("Sucursal guardada correctamente!", HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error("No se pudo guardar sucursal", e);
 			return new ResponseEntity<String>("Hubo un error al momento de guardar la sucursal", HttpStatus.NOT_FOUND);
 		}
+		return new ResponseEntity<String>("Sucursal guardada correctamente!", HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/updateFacility", method = RequestMethod.POST)
@@ -85,41 +86,33 @@ public class FacilitiesController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/deleteFacility", method = RequestMethod.POST)
-	public ModelAndView deleteExistingFacility(@RequestParam(value = "idFacility") Long id) {
-		String errorMessage = "An error ocurred trying to delete the facility";
-		logger.info("Sucursal " + id);
+	@PostMapping("/deleteFacility")
+	public @ResponseBody ResponseEntity<String> deleteExistingFacility(@RequestParam(value = "idFacility") Long id) {
+		Sucursal sucursal = new Sucursal();
 		try {
-			Sucursal sucursal = new Sucursal();
 			sucursal = sucursalService.getSucursalById(id);
 			sucursalService.deleteSucursal(id);
-			mav.addObject("deleteFacilityErrorMessage", null);
-			mav.addObject("deleteFacilitySuccessMessage",
-					"Facility " + sucursal.getsNombre() + " has been deleted correctly");
 		} catch (Exception e) {
-			mav.addObject("deleteFacilitySuccessMessage", null);
-			logger.error(errorMessage, e);
-			mav.addObject("deleteFacilityErrorMessage", errorMessage);
+			logger.error("Error deleting facility" + id, e);
+			return new ResponseEntity<String>("Hubo un error al eliminar la sucursal '" + sucursal.getsNombre(),
+					HttpStatus.NOT_FOUND);
 		}
-		mav.setViewName("redirect:/facilities");
-		return mav;
+		return new ResponseEntity<String>("Sucursal '" + sucursal.getsNombre() + "' borrada correctamente",
+				HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/facilityProfile", method = RequestMethod.GET)
+	@GetMapping("/facilityProfile")
 	public ModelAndView facilityProfile(@RequestParam(value = "idFacility") Long id) {
-		String facilityProfileErrorMessage = "An error ocurred trying to load the facility profile";
 		try {
 			Sucursal sucursal = new Sucursal();
 			List<Empleado> empleados = null;
 			sucursal = sucursalService.getSucursalById(id);
 			empleados = sucursal.getEmpleados();
-			mav.addObject("facilityProfileErrorMessage", null);
 			mav.addObject("facility", sucursal);
 			mav.addObject("employees", empleados);
 
 		} catch (Exception e) {
-			logger.error(facilityProfileErrorMessage, e);
-			mav.addObject("facilityProfileErrorMessage", facilityProfileErrorMessage);
+			logger.error("Error cargando el perfil ", e);
 			mav.setViewName("redirect:/facilities");
 			return mav;
 		}
@@ -130,61 +123,48 @@ public class FacilitiesController {
 	@RequestMapping(value = "/updateEmployee", method = RequestMethod.POST)
 	public ModelAndView updateEmployee(@RequestParam(value = "idFacility") Long idFacility,
 			@RequestParam(value = "idEmployee") Long idEmployee) {
-		String updateEmployeeErrorMessage = "An error ocurred obtaining the employee to update";
 		try {
-			mav.addObject("updateEmployeeErrorMessage", null);
 			Empleado empleado = new Empleado();
 			empleado = empleadoService.findEmployeeById(idEmployee);
 			mav.addObject("employee", empleado);
 			mav.addObject("idFacility", idFacility);
 		} catch (Exception e) {
-			logger.error(updateEmployeeErrorMessage, e);
-			mav.addObject("updateEmployeeErrorMessage", updateEmployeeErrorMessage);
+			logger.error("Error encontrando empleado", e);
 			return facilityProfile(idFacility);
 		}
 		mav.setViewName("employeeForm");
 		return mav;
 	}
 
-	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST)
-	public ModelAndView saveEmployee(@ModelAttribute Empleado empleado,
+	@PostMapping("/saveEmployee")
+	public @ResponseBody ResponseEntity<String> saveEmployee(@ModelAttribute Empleado empleado,
 			@RequestParam(value = "idFacility") Long idFacility) {
-		String saveEmployeeErrorMessage = "Couldn't save employee";
-		String saveEmployeeSuccessMessage = "Employee saved!";
+		Sucursal sucursal = new Sucursal();
 		try {
-			Sucursal sucursal = new Sucursal();
 			sucursal = sucursalService.getSucursalById(idFacility);
 			empleado.seteSucursal(sucursal);
 			empleadoService.saveEmployee(empleado);
-			mav.addObject("saveEmployeeErrorMessage", null);
-			mav.addObject("saveEmployeeSuccessMessage", saveEmployeeSuccessMessage);
 		} catch (Exception e) {
-			logger.error(saveEmployeeErrorMessage, e);
-			mav.addObject("saveEmployeeSuccessMessage", null);
-			mav.addObject("saveEmployeeErrorMessage", saveEmployeeErrorMessage);
+			logger.error("Error guardando datos del empleado", e);
+			return new ResponseEntity<String>("Error. No se pudo guardar empleado", HttpStatus.NOT_FOUND);
 		}
-		mav.setViewName("redirect:/facilityProfile");
-		return mav;
+		return new ResponseEntity<String>("Empleado guardado correctamente", HttpStatus.OK);
 	}
 
 	@PostMapping("/deleteEmployee")
-	public ModelAndView deleteEmployee(@RequestParam(value = "idFacility") Long idFacility,
+	public @ResponseBody ResponseEntity<String> deleteEmployee(@RequestParam(value = "idFacility") Long idFacility,
 			@RequestParam(value = "idEmployee") Long idEmployee) {
-		String deleteEmployeeErrorMessage = "Couldn't delete employee";
+		Empleado empleado = new Empleado();
 		try {
-			Empleado empleado = new Empleado();
 			empleado = empleadoService.findEmployeeById(idEmployee);
-			mav.addObject("deleteEmployeeSuccessMessage",
-					"Employee" + empleado.geteNombre() + "has been deleted correctly");
-			mav.addObject("deleteEmployeeErrorMessage", null);
 			empleadoService.deleteEmployee(idEmployee);
 		} catch (Exception e) {
-			logger.error(deleteEmployeeErrorMessage, e);
-			mav.addObject("deleteEmployeeSuccessMessage", null);
-			mav.addObject("deleteEmployeeErrorMessage", deleteEmployeeErrorMessage);
+			logger.error("Error bo", e);
+			return new ResponseEntity<String>("No se pudo eleminar el empleado '" + empleado.geteNombre(),
+					HttpStatus.NOT_FOUND);
 		}
-		mav.setViewName("redirect:/facilityProfile");
-		return mav;
+		return new ResponseEntity<String>("Empleado '" + empleado.geteNombre() + "' se ha eliminado correctamente",
+				HttpStatus.OK);
 	}
 
 	@PostMapping("/addEmployee")

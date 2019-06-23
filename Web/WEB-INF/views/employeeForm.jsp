@@ -16,6 +16,38 @@
 <link rel="stylesheet" href="resources/css/forms.css">
 <meta charset="UTF-8">
 <title>Rustico Restaurante</title>
+<script src="resources/js/jquery-3.3.0.js"></script>
+<script type="text/javascript">
+	function saveEmployee(idFacility){
+		var data = $("#employeeForm").serialize();
+		console.log(data);
+		$.ajax({
+			url: "${pageContext.request.contextPath}/saveEmployee",
+			type: "POST",
+			data: data,
+			success: function(data){
+				Swal.fire({
+					title: 'Success!',
+					text: data,
+					type: 'success',
+					showConfirmButton: false,
+					timer: 1800,
+				}).then(() => {
+					window.location.href = "${pageContext.request.contextPath}/facilityProfile?idFacility=" + idFacility;
+				});
+			},
+			error: function(error) {
+				Swal.fire({
+					title: 'Oops!',
+					text: error.responseText,
+					type: 'error',
+					showConfirmButton: false,
+					timer: 1800,
+				});
+			},
+		});
+	}
+</script>
 </head>
 <body>
 	<nav class="brown">
@@ -27,7 +59,7 @@
 	</nav>
 	<h1>Datos del empleado</h1>
 	<form:form action="${pageContext.request.contextPath}/saveEmployee"
-		method="POST" modelAttribute="employee">
+		method="POST" modelAttribute="employee" name="employeeForm" id="employeeForm">
 		<form:input type="hidden" name="idEmployee" path="cEmpleado"
 			value="${employee.cEmpleado}" />
 			<input type="hidden" name="idFacility" value="${idFacility}">
@@ -62,9 +94,9 @@
 			</label>
 		</div>
 		<div class="row right-align" style="width: calc(100vw - 32px);">
-			<button
+			<button onClick="saveEmployee(${idFacility})"
 				class="btn btn-small green waves-effect waves-light right-align"
-				type="submit" name="save">
+				type="button" name="save">
 				Guardar <i class="material-icons right">save</i>
 			</button>
 			<a

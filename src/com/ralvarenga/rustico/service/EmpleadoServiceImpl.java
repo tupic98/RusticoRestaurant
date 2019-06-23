@@ -26,7 +26,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
 	@Override
 	public Empleado saveEmployee(Empleado empleado) {
-		return empleadoRepository.save(empleado);
+		return empleadoRepository.saveAndFlush(empleado);
 	}
 
 	@Override

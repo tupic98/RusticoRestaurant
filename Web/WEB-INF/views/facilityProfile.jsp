@@ -16,6 +16,63 @@
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 <meta charset="UTF-8">
 <title>Rustico Restaurante</title>
+<script src="resources/js/jquery-3.3.0.js"></script>
+<script type="text/javascript">
+	function deleteFacility(id){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/deleteFacility",
+			type: "POST",
+			data: {idFacility: id},
+			success: function(data){
+				Swal.fire({
+					title: 'Success!',
+					text: data,
+					type: 'success',
+					showConfirmButton: false,
+					timer: 1800,
+				}).then(() => {
+					window.location.href = "${pageContext.request.contextPath}/facilities"
+				});
+			},
+			error: function(error) {
+				Swal.fire({
+					title: 'Oops!',
+					text: error.responseText,
+					type: 'error',
+					showConfirmButton: false,
+					timer: 1800,
+				});
+			},
+		});
+	}
+	function deleteEmployee(idFacility, idEmployee){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/deleteEmployee",
+			type: "POST",
+			data: {idFacility: idFacility, idEmployee: idEmployee},
+			success: function(data){
+				Swal.fire({
+					title: 'Success!',
+					text: data,
+					type: 'success',
+					showConfirmButton: false,
+					timer: 1800,
+				}).then(() => {
+					window.location.href = "${pageContext.request.contextPath}/facilityProfile?idFacility=" + idFacility;
+				});
+			},
+			error: function(error) {
+				Swal.fire({
+					title: 'Oops!',
+					text: error.responseText,
+					type: 'error',
+					showConfirmButton: false,
+					timer: 1800,
+				});
+			},
+		});
+	}
+</script>
 </head>
 <body>
 	<nav class="brown">
@@ -89,8 +146,8 @@
 								<input type="hidden" value="${facility.cSucursal}"
 									name="idFacility"> <input type="hidden"
 									value="${employee.cEmpleado}" name="idEmployee">
-								<button class="btn-flat waves-effect waves-teal tooltipped"
-									type="submit" name="Actualizar" data-position="top"
+								<button onClick="deleteEmployee(${facility.cSucursal}, ${employee.cEmpleado})" class="btn-flat waves-effect waves-teal tooltipped"
+									type="button" name="Actualizar" data-position="top"
 									data-tooltip="Eliminar empleado: ${employee.eNombre}">
 									<i class="material-icons">delete</i>
 								</button>
@@ -110,8 +167,8 @@
 				onclick="location.href='${pageContext.request.contextPath}/facilities'; return false;"
 				class="btn-floating blue tooltipped" data-position="left"
 				data-tooltip="Go home"><i class="material-icons">home</i></a></li>
-			<li><a href=""
-				onclick="document.forms[0].submit(); return false;"
+			<li><a
+				onClick="deleteFacility(${facility.cSucursal})"
 				class="btn-floating red tooltipped" data-position="left"
 				data-tooltip="Eliminar sucursal: ${facility.sNombre}"><i
 					class="material-icons">delete</i></a></li>

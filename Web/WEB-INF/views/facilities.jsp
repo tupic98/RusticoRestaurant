@@ -16,8 +16,36 @@
 <link rel="stylesheet" href="resources/css/facilities.css">
 <meta charset="UTF-8">
 <title>Rustico Restaurante</title>
+<script src="resources/js/jquery-3.3.0.js"></script>
 <script type="text/javascript">
-	
+	function deleteFacility(id){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/deleteFacility",
+			type: "POST",
+			data: {idFacility: id},
+			success: function(data){
+				Swal.fire({
+					title: 'Success!',
+					text: data,
+					type: 'success',
+					showConfirmButton: false,
+					timer: 1800,
+				}).then(() => {
+					window.location.href = "${pageContext.request.contextPath}/facilities"
+				});
+			},
+			error: function(error) {
+				Swal.fire({
+					title: 'Oops!',
+					text: error.responseText,
+					type: 'error',
+					showConfirmButton: false,
+					timer: 1800,
+				});
+			},
+		});
+	};
+
 </script>
 </head>
 <body>
@@ -69,11 +97,13 @@
 								</button>
 							</form>
 							<form action="${pageContext.request.contextPath}/deleteFacility"
-								method="post" class="col s12">
+								method="post" class="col s12" name="deleteFacilityForm"
+								id="deleteFacilityForm">
 								<input type="hidden" value="${facility.cSucursal}"
 									name="idFacility">
-								<button class="btn-flat waves-effect waves-teal tooltipped"
-									type="submit" name="Actualizar" data-position="top"
+								<button onClick="deleteFacility(${facility.cSucursal})"
+									class="btn-flat waves-effect waves-teal tooltipped"
+									type="button" name="Actualizar" data-position="top"
 									data-tooltip="Eliminar sucursal: ${facility.sNombre}">
 									<i class="material-icons">delete</i>
 								</button>
@@ -82,7 +112,8 @@
 								method="get" class="col s12">
 								<input type="hidden" value="${facility.cSucursal}"
 									name="idFacility">
-								<button class="btn-flat waves-effect waves-teal tooltipped"
+								<button 
+									class="btn-flat waves-effect waves-teal tooltipped"
 									type="submit" name="Actualizar" data-position="top"
 									data-tooltip="Ver perfil de: ${facility.sNombre}">
 									<i class="material-icons">account_circle</i>

@@ -20,6 +20,7 @@
 <script type="text/javascript">
 	function saveFacility(){
 		var data = $("#facilityForm").serialize();
+		console.log(data);
 		$.ajax({
 			url: "${pageContext.request.contextPath}/saveFacility",
 			type: "POST",

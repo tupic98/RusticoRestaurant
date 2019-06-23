@@ -26,7 +26,7 @@ public class SucursalServiceImpl implements SucursalService {
 
 	@Override
 	public Sucursal saveSucursal(Sucursal sucursal) {
-		return sucursalRepository.save(sucursal);
+		return sucursalRepository.saveAndFlush(sucursal);
 	}
 
 	@Override
